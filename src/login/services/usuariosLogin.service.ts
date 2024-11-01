@@ -42,8 +42,7 @@ export class loginService {
                         delete email.usuario_password //removendo a senha do retorno
                         return {
                             success: true,
-                            message: 'Login localizado',
-                            error: token
+                            message: token,                           
                         }
                     }
                 }else {
