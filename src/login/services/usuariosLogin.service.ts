@@ -42,7 +42,7 @@ export class loginService {
                         delete email.usuario_password //removendo a senha do retorno
                         return {
                             success: true,
-                            message: token,                           
+                            token: token,                           
                         }
                     }
                 }else {
