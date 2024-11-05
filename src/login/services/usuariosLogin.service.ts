@@ -37,7 +37,7 @@ export class loginService {
                         }
                     } else {
                         const token = sign({ sub: String(email.usuario_id), permissions: ['user', 'pessoa'] }, "e261b609570a6ad4484db9fe7cf240b2", {   //usar um env
-                            expiresIn: '5min'
+                            expiresIn: '15min' //teste em 1 min
                         })
                         delete email.usuario_password //removendo a senha do retorno
                         return {
