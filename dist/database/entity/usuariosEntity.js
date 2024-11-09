@@ -31,13 +31,41 @@ __decorate([
     __metadata("design:type", String)
 ], UsuarioEntity.prototype, "usuario_password", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'date', nullable: true, default: null }),
-    __metadata("design:type", Date)
-], UsuarioEntity.prototype, "usuario_ultimoAcesso", void 0);
+    (0, typeorm_1.Column)({ type: 'enum', enum: ['RH', 'Colaborador', 'Administrador'], default: 'Colaborador' }),
+    __metadata("design:type", String)
+], UsuarioEntity.prototype, "usuario_tipo", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'time', width: 4, nullable: false }),
+    __metadata("design:type", String)
+], UsuarioEntity.prototype, "usuario_jornada_inicio", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'time', width: 4, nullable: false }),
+    __metadata("design:type", String)
+], UsuarioEntity.prototype, "usuario_jornada_fim", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'time', width: 4, nullable: false }),
+    __metadata("design:type", String)
+], UsuarioEntity.prototype, "usuario_intervalo_inicio", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'time', width: 4, nullable: false }),
+    __metadata("design:type", String)
+], UsuarioEntity.prototype, "usuario_intervalo_fim", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'enum', enum: ['sim', 'nao'], default: 'nao' }),
+    __metadata("design:type", String)
+], UsuarioEntity.prototype, "usuario_hora_besta", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'enum', enum: ['diurno', 'noturno', 'vespertino', 'madrugada', 'jornada', 'meio periodo', 'revezamento', 'flexivel'], default: 'diurno' }),
+    __metadata("design:type", String)
+], UsuarioEntity.prototype, "usuario_turno", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'enum', enum: ['Ativo', 'Inativo'], default: 'Inativo' }),
     __metadata("design:type", String)
 ], UsuarioEntity.prototype, "usuario_status", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'date', nullable: true, default: null }),
+    __metadata("design:type", Date)
+], UsuarioEntity.prototype, "usuario_ultimoAcesso", void 0);
 __decorate([
     (0, typeorm_1.UpdateDateColumn)({ name: 'updated_At' }),
     __metadata("design:type", Date)

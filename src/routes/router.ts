@@ -14,8 +14,9 @@ router.get('/', (req: Request, res: Response) => {
 router.post('/usuarios/add', usuarioAddControlle) 
 router.get('/usuarios/search', usuarioSearchController)
 router.put('/usuarios/edit/:id', usuarioEditController)
-//router.delete('/usuarios/delete/:id', usuarioDeleteController)
+router.delete('/usuarios/delete/:id', usuarioDeleteController)
 
+// CRUD Registro Ponto
 
 //login
 //autenticar (/login)
