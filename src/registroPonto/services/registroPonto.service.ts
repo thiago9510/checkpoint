@@ -17,43 +17,69 @@ export class PontoService {
      * Verifica se o usuário já bateu o ponto para esse tipo hoje
      *
      * @param usuario_id - ID do usuário que está batendo o ponto
+     * @param PontoTipo - Tipo do Ponto
      * @returns Registro do ponto ou erro
      */
-    async VerificaPonto(usuario_id: number, PontoTipo: 'Entrada' | 'Saida' | 'Inicio_intervalo' | 'Fim_intervalo') { //Promise<RegistroPontoUsuariosEntity | Error>
+    async registraPonto(usuario_id: number, PontoTipo: 'Entrada' | 'Saida' | 'Inicio_intervalo' | 'Fim_intervalo') { //Promise<RegistroPontoUsuariosEntity | Error>
         try {
             const repository: Repository<RegistroPontoEntity> = databaseConnection.getRepository(RegistroPontoEntity);
 
             const today = new Date();
             const startOfDay = new Date(today.setHours(0, 0, 0, 0)); // Define o início do dia (00:00:00)
             const endOfDay = new Date(today.setHours(23, 59, 59, 999)); // Define o fim do dia (23:59:59)
-    
+
             const registrosHoje = await repository.find({
-                where: {                    
+                where: {
                     usuario: { usuario_id }, // Passando o usuario_id no relacionamento
-                    registroPonto_tipo: PontoTipo, // Filtro pelo tipo de ponto
+                    registroPonto_tipo: PontoTipo,
                     created_At: Between(startOfDay, endOfDay), // Filtro pela data de hoje
                 }
-            });   
-
-            return await registrosHoje
+            });
             // Verificando se registrosHoje é um array e se contém algum registro
             if (Array.isArray(registrosHoje) && registrosHoje.length === 0) {
-                // Se não houver registro de ponto hoje, marca a entrada
-                return 'não abeteu ponto desse tipo';
+                const registraPonto = await repository.insert({
+                    registroPonto_tipo: PontoTipo,
+                    usuario: { usuario_id },
+
+                })
+                return {
+                    success: true,
+                    name: 'Ponto Registrado com Sucesso!',
+                    message: registraPonto
+                }
+
             } else if (Array.isArray(registrosHoje) && registrosHoje.length > 0) {
-                // Se já houver registro de ponto, marca a saída
-                return 'Já bateu ponto hoje'
+                return {
+                    success: false,
+                    name: 'Ponto Já cadastrado',
+                    message: registrosHoje
+                }
             } else {
                 throw {
+                    success: false,
                     name: 'Erro ao processar registros',
-                    message: 'Erro ao obter registros de ponto',
+                    message: registrosHoje,
                 };
             }
         } catch (error) {
             throw {
-                name: 'Erro ao bater o ponto!',
+                success: false,
+                name: 'Erro ao verificar Ponto',
                 message: error
             };
         }
+    }
+
+    /**
+ * Método para Bater o Ponto
+ * Verifica se o usuário já bateu o ponto para esse tipo hoje
+ *
+ * @param usuario_id - ID do usuário que está batendo o ponto
+ * @param PontoTipo - Tipo do Ponto
+ * @returns Registro do ponto ou erro
+ */
+
+    async consultaraPonto (){
+
     }
 }

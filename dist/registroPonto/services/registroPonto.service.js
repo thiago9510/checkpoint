@@ -11,7 +11,7 @@ class PontoService {
     }
     /**
      * Método para Bater o Ponto
-     * Verifica se o usuário já bateu o ponto hoje e retornar registro ou erro
+     * Verifica se o usuário já bateu o ponto para esse tipo hoje
      *
      * @param usuario_id - ID do usuário que está batendo o ponto
      * @returns Registro do ponto ou erro
@@ -25,30 +25,42 @@ class PontoService {
             const registrosHoje = await repository.find({
                 where: {
                     usuario: { usuario_id }, // Passando o usuario_id no relacionamento
-                    registroPonto_tipo: PontoTipo, // Filtro pelo tipo de ponto
+                    registroPonto_tipo: PontoTipo,
                     created_At: (0, typeorm_1.Between)(startOfDay, endOfDay), // Filtro pela data de hoje
                 }
             });
-            return await registrosHoje;
             // Verificando se registrosHoje é um array e se contém algum registro
             if (Array.isArray(registrosHoje) && registrosHoje.length === 0) {
-                // Se não houver registro de ponto hoje, marca a entrada
-                return 'não abeteu ponto desse tipo';
+                const registraPonto = await repository.insert({
+                    registroPonto_tipo: PontoTipo,
+                    usuario: { usuario_id },
+                });
+                return {
+                    success: true,
+                    ponto: 'Nao',
+                    manssage: registraPonto
+                };
             }
             else if (Array.isArray(registrosHoje) && registrosHoje.length > 0) {
-                // Se já houver registro de ponto, marca a saída
-                return 'Já bateu ponto hoje';
+                return {
+                    success: true,
+                    ponto: 'Sim',
+                    name: 'Ponto Já cadastrado',
+                    message: registrosHoje
+                };
             }
             else {
                 throw {
+                    success: false,
                     name: 'Erro ao processar registros',
-                    message: 'Erro ao obter registros de ponto',
+                    message: registrosHoje,
                 };
             }
         }
         catch (error) {
             throw {
-                name: 'Erro ao bater o ponto!',
+                success: false,
+                name: 'Erro ao verificar Ponto',
                 message: error
             };
         }
