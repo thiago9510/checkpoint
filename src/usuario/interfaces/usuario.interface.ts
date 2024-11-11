@@ -13,7 +13,7 @@ export interface UsuarioInterface {
     usuario_intervalo_fim?: string
     usuario_jornada_inicio?:string
     usuario_jornada_fim?:string
-    usuario_hora_besta?: string | undefined
+    usuario_hora_besta?: 'sim'| 'nao'
 }
 
 export interface UsuarioResultInterface{

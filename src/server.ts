@@ -4,8 +4,6 @@ import dotenv from 'dotenv'
 import { router } from './routes/router'
 import { checkConnectionDb } from './database/connection/connectCheck' 
 
-'./database/connection/connectCheck'
-
 dotenv.config()
 const app = express()
 

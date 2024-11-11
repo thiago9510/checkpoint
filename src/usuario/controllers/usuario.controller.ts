@@ -3,7 +3,7 @@ import { UsuarioInterface } from "../interfaces/usuario.interface"
 import { UsuarioService } from "../services/usuario.service"
 
 //Create
-export const usuarioAddControlle = async (req: Request, res: Response) => {
+export const usuarioAddController = async (req: Request, res: Response) => {
     const usuario: UsuarioInterface = req.body
     const service = new UsuarioService()
     const response = await service.addUsuario(usuario)

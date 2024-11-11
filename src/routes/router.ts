@@ -1,7 +1,12 @@
 import express from 'express'
 import { Request, Response } from 'express'
-import { usuarioAddControlle, usuarioEditController, usuarioSearchController, usuarioDeleteController } from '../usuario/controllers/usuario.controller'
+import { usuarioAddController, usuarioEditController, usuarioSearchController, usuarioDeleteController } from '../usuario/controllers/usuario.controller'
 import { autenticaUserController } from '../login/controllers/usuariosLogin.controller'
+import { pontoAddControlle, pontoDeleteController, pontoEditController, pontoSearchController } from '../ponto/controllers/ponto.controller'
+
+
+import { registrarPontoController } from '../registroPonto/controllers/registroPonto.controller'
+import { verificaTokenMiddleware } from '../registroPonto/middleware/registroPonto.middleware'
 
 export const router = express.Router()
 
@@ -11,12 +16,19 @@ router.get('/', (req: Request, res: Response) => {
 })
 
 // CRUD USUARIO
-router.post('/usuarios/add', usuarioAddControlle) 
+router.post('/usuarios/add', usuarioAddController) 
 router.get('/usuarios/search', usuarioSearchController)
 router.put('/usuarios/edit/:id', usuarioEditController)
 router.delete('/usuarios/delete/:id', usuarioDeleteController)
 
+//CRUD BATER PONTO
+router.post('/api/registrarPonto', registrarPontoController)
+
 // CRUD Registro Ponto
+//router.post('/ponto/add', pontoAddControlle) 
+//router.get('/usuarios/search', pontoSearchController)
+//router.put('/usuarios/edit/:id', pontoEditController)
+//router.delete('/usuarios/delete/:id', pontoDeleteController)
 
 //login
 //autenticar (/login)
