@@ -1,0 +1,87 @@
+import { PontoRepository } from "../repositories/ponto.repositories"; 
+import { RegistroPontoUsuariosEntity } from "../../database/entity/RegistroPontoUsuarioEntity";
+import { UsuarioEntity } from "../../database/entity/usuariosEntity";
+
+export class PontoService {
+  private pontoRepository: PontoRepository;
+
+  constructor() {
+    this.pontoRepository = new PontoRepository();
+  }
+
+  /**
+   * Método para Bater o Ponto
+   * Verifica se o usuário já bateu o ponto hoje e registra a entrada/saída.
+   *
+   * @param usuario_id - ID do usuário que está batendo o ponto
+   * @returns Registro do ponto ou erro
+   */
+  async baterPonto(usuario_id: number): Promise<RegistroPontoUsuariosEntity | Error> {
+    try {
+      // Verificando se o usuário já bateu o ponto hoje
+      const registrosHoje = await this.pontoRepository.search({
+        usuario_id,
+        createdAt: new Date().toISOString().split("T")[0],  // Data de hoje
+      });
+  
+      // Verificando se registrosHoje é um array e se contém algum registro
+      if (Array.isArray(registrosHoje) && registrosHoje.length === 0) {
+        // Se não houver registro de ponto hoje, marca a entrada
+        return this.registrarEntrada(usuario_id);
+      } else if (Array.isArray(registrosHoje) && registrosHoje.length > 0) {
+        // Se já houver registro de ponto, marca a saída
+        return this.registrarSaida(usuario_id, registrosHoje[0]);
+      } else {
+        throw {
+          name: 'Erro ao processar registros',
+          message: 'Erro ao obter registros de ponto',
+        };
+      }
+    } catch (error) {
+      throw {
+        name: 'Erro ao bater o ponto!',
+        message: error
+      };
+    }
+  }
+  /**
+   * Método para registrar a entrada do ponto
+   * @param usuario_id - ID do usuário
+   * @returns Registro do ponto
+   */
+  async registrarEntrada(usuario_id: number): Promise<RegistroPontoUsuariosEntity> {
+    try {
+      // Lógica de registrar a entrada
+      const novoPonto = new RegistroPontoUsuariosEntity();
+      novoPonto
+      novoPonto. = 'entrada'; // Exemplo de como definir o tipo de ponto (chegada, saída, etc.)
+  
+      // Salvando o ponto
+      const pontoSalvo = await this.pontoRepository.create(novoPonto);
+      
+      // Retorna o ponto salvo
+      return pontoSalvo;
+    } catch (error) {
+      // Garantindo que a função lança o erro corretamente
+      throw new Error(`Erro ao registrar a entrada: ${error.message}`);
+    }
+  }
+
+  /**
+   * Método para registrar a saída do ponto
+   * @param usuario_id - ID do usuário
+   * @param pontoRegistro - Registro da entrada anterior
+   * @returns Registro atualizado com a saída
+   */
+  private async registrarSaida(usuario_id: number, pontoRegistro: RegistroPontoUsuariosEntity): Promise<RegistroPontoUsuariosEntity> {
+    try {
+      pontoRegistro.registroPonto_saida = new Date();  // Marca a hora de saída
+      return this.pontoRepository.edit({ usuario_id, entrada: pontoRegistro.registroPonto_chegada }, pontoRegistro);
+    } catch (error) {
+      throw {
+        name: 'Erro ao registrar saída!',
+        message: error,
+      };
+    }
+  }
+}

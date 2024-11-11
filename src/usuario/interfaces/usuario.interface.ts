@@ -7,6 +7,13 @@ export interface UsuarioInterface {
     usuario_status?: 'Ativo' | 'Inativo'    
     updated_At?: Date
     created_At?: Date
+    usuario_tipo?: 'RH'|'Colaborador'|'Administrador'
+    usuario_turno?: 'diurno'|'noturno'|'vespertino'|'madrugada'|'jornada'|'meio periodo'|'revezamento'|'flexivel'
+    usuario_intervalo_inicio?: string
+    usuario_intervalo_fim?: string
+    usuario_jornada_inicio?:string
+    usuario_jornada_fim?:string
+    usuario_hora_besta?: 'sim'| 'nao'
 }
 
 export interface UsuarioResultInterface{

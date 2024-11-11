@@ -34,7 +34,7 @@ class loginService {
                         };
                     }
                     else {
-                        const token = (0, jsonwebtoken_1.sign)({ sub: String(email.usuario_id), permissions: ['user', 'pessoa'] }, "e261b609570a6ad4484db9fe7cf240b2", {
+                        const token = (0, jsonwebtoken_1.sign)({ sub: String(email.usuario_id), permissions: email.usuario_tipo }, "e261b609570a6ad4484db9fe7cf240b2", {
                             expiresIn: '15min' //teste em 1 min
                         });
                         delete email.usuario_password; //removendo a senha do retorno

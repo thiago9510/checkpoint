@@ -8,7 +8,6 @@ const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const router_1 = require("./routes/router");
 const connectCheck_1 = require("./database/connection/connectCheck");
-'./database/connection/connectCheck';
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 app.use(express_1.default.json());

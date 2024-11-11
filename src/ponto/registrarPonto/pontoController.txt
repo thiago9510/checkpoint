@@ -1,0 +1,15 @@
+import { PontoService } from "./pontoService"; 
+import { Request, Response, NextFunction } from "express"
+// Método para controlar o ponto do usuário
+async function baterPonto(req: Request, res: Response) {
+  const usuario_id = req.body.usuario_id;  // Recebe o ID do usuário
+
+  const pontoService = new PontoService();
+
+  try {
+    const ponto = await pontoService.baterPonto(usuario_id);
+    return res.status(200).json(ponto);  // Retorna o ponto registrado
+  } catch (error) {
+    return res.status(400).json(error);  // Retorna erro caso algo dê errado
+  }
+}

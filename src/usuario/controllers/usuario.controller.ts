@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from "express"
-import { UsuarioInterface } from "../interfaces/usuario.interface" 
-import { UsuarioService } from "../services/usuario.service" 
+import { UsuarioInterface } from "../interfaces/usuario.interface"
+import { UsuarioService } from "../services/usuario.service"
 
 //Create
-export const usuarioAddControlle = async (req: Request, res: Response) => {
+export const usuarioAddController = async (req: Request, res: Response) => {
     const usuario: UsuarioInterface = req.body
     const service = new UsuarioService()
     const response = await service.addUsuario(usuario)
@@ -46,19 +46,17 @@ export const usuarioEditController = async (req: Request, res: Response) => {
 export const usuarioDeleteController = async (req: Request, res: Response) => {
     const usuarioId: number = parseInt(req.params.id)
 
-    try {
-        const service = new UsuarioService()
-        const response = await service.deleteUsuario(usuarioId)
-        if(response != undefined || response != null){
-            return res.status(response.status as number).json({
-                sucess: response.success,
-                menssagem: response.message
-            }) 
-        }      
-    } catch (error) {
-        return res.status(400).json({
+    const service = new UsuarioService()
+    const response = await service.deleteUsuario(usuarioId)
+    if (response) {
+        res.status(response.status).json({
+            sucess: response.success,
+            menssagem: response.message
+        })
+    } else {
+        res.status(400).json({
             sucess: false,
-            menssagem: error
+            menssagem: response
         })
     }
 }

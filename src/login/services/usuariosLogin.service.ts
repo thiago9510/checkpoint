@@ -35,8 +35,8 @@ export class loginService {
                             success: false,
                             message: 'Senha Inválida'
                         }
-                    } else {
-                        const token = sign({ sub: String(email.usuario_id), permissions: ['user', 'pessoa'] }, "e261b609570a6ad4484db9fe7cf240b2", {   //usar um env
+                    } else {                        
+                        const token = sign({ sub: String(email.usuario_id), permissions: email.usuario_tipo }, "e261b609570a6ad4484db9fe7cf240b2", {   //usar um env
                             expiresIn: '15min' //teste em 1 min
                         })
                         delete email.usuario_password //removendo a senha do retorno

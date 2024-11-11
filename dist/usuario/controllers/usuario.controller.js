@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.usuarioDeleteController = exports.usuarioEditController = exports.usuarioSearchController = exports.usuarioAddControlle = void 0;
+exports.usuarioDeleteController = exports.usuarioEditController = exports.usuarioSearchController = exports.usuarioAddController = void 0;
 const usuario_service_1 = require("../services/usuario.service");
 //Create
-const usuarioAddControlle = async (req, res) => {
+const usuarioAddController = async (req, res) => {
     const usuario = req.body;
     const service = new usuario_service_1.UsuarioService();
     const response = await service.addUsuario(usuario);
@@ -14,7 +14,7 @@ const usuarioAddControlle = async (req, res) => {
         res.status(200).json(response);
     }
 };
-exports.usuarioAddControlle = usuarioAddControlle;
+exports.usuarioAddController = usuarioAddController;
 //Read
 const usuarioSearchController = async (req, res) => {
     //ajustar para realizar o search
@@ -46,20 +46,18 @@ exports.usuarioEditController = usuarioEditController;
 //delte
 const usuarioDeleteController = async (req, res) => {
     const usuarioId = parseInt(req.params.id);
-    try {
-        const service = new usuario_service_1.UsuarioService();
-        const response = await service.deleteUsuario(usuarioId);
-        if (response != undefined || response != null) {
-            return res.status(response.status).json({
-                sucess: response.success,
-                menssagem: response.message
-            });
-        }
+    const service = new usuario_service_1.UsuarioService();
+    const response = await service.deleteUsuario(usuarioId);
+    if (response) {
+        res.status(response.status).json({
+            sucess: response.success,
+            menssagem: response.message
+        });
     }
-    catch (error) {
-        return res.status(400).json({
+    else {
+        res.status(400).json({
             sucess: false,
-            menssagem: error
+            menssagem: response
         });
     }
 };
