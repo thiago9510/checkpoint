@@ -18,30 +18,28 @@ export class PontoformatService {
                 const formattedInicioIntervalo = inicio_intervalo ? format(new Date(inicio_intervalo), 'HH:mm:ss') : null;
                 const formattedFimIntervalo = fim_intervalo ? format(new Date(fim_intervalo), 'HH:mm:ss') : null;
                 const formattedSaida = saida ? format(new Date(saida), 'HH:mm:ss') : null;
-                const formattedJornada = jornada? jornada.split('.')[0] : null; // Remover milissegundos
-               
+                const formattedJornada = jornada ? jornada.split('.')[0] : null; // Remover milissegundos
 
                 // Cálculo do banco de horas
                 let bancoHoras = null;
                 if (entrada && saida) {
                     const entradaTime = new Date(entrada).getTime();
                     const saidaTime = new Date(saida).getTime();
-                    
+
                     // Intervalo fixo de 1 hora
                     const intervaloFixo = 1 * 60 * 60 * 1000; // 1 hora em milissegundos
-                    
+
                     // Calcular a jornada de trabalho descontando o intervalo fixo
                     const jornadaTotal = saidaTime - entradaTime - intervaloFixo; // Total de horas trabalhadas
 
-                    // Divida a string para pegar hora, minuto e segundo
-                    const [hora, minuto, segundo] = formattedJornada.split(':').map(Number);                   
-                    
-                    // Jornada padrão de 8 horas (em milissegundos)
-                    const jornadaPadrao = hora * 60 * 60 * 1000; // 8 horas em milissegundos       
+                    // Divida a string para pegar hora, minuto e segundo da jornada
+                    const [hora, minuto, segundo] = formattedJornada.split(':').map(Number);
 
+                    // Jornada padrão em milissegundos
+                    const jornadaPadrao = (hora * 60 * 60 + minuto * 60 + segundo) * 1000;
 
-                    // Banco de horas é a diferença entre a jornada total e a jornada padrão
-                    bancoHoras = (jornadaTotal - jornadaPadrao) / (1000 * 60 * 60); // Convertendo de milissegundos para horas
+                    // Calcular o banco de horas como a diferença em minutos
+                    bancoHoras = (jornadaTotal - jornadaPadrao) / (1000 * 60); // Convertendo de milissegundos para minutos
                 }
 
                 // Retorno do objeto formatado
@@ -52,7 +50,7 @@ export class PontoformatService {
                     inicio_intervalo: formattedInicioIntervalo,
                     fim_intervalo: formattedFimIntervalo,
                     saida: formattedSaida,
-                    banco_horas: bancoHoras !== null ? bancoHoras.toFixed(2) : null, // Limitar a duas casas decimais
+                    banco_horas: bancoHoras !== null ? (bancoHoras / 60).toFixed(2) : null, // Convertendo para horas com duas casas decimais
                     turno: turno
                 };
             });
