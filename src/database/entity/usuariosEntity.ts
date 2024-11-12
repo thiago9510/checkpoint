@@ -18,16 +18,7 @@ export class UsuarioEntity {
     usuario_tipo?: string
 
     @Column({type: 'time', width: 4, nullable: false })
-    usuario_jornada_inicio?: string
-    
-    @Column({type: 'time', width: 4, nullable: false })
-    usuario_jornada_fim?: string
-
-    @Column({type: 'time', width: 4, nullable: false })
-    usuario_intervalo_inicio?: string
-
-    @Column({type: 'time', width: 4, nullable: false })
-    usuario_intervalo_fim?: string
+    usuario_jornada?: string
 
     @Column({ type: 'enum', enum: ['sim', 'nao'], default: 'nao' })
     usuario_hora_besta?: string;

@@ -5,7 +5,7 @@ import { autenticaUserController } from '../login/controllers/usuariosLogin.cont
 import { pontoAddControlle, pontoDeleteController, pontoEditController, pontoSearchController } from '../ponto/controllers/ponto.controller'
 
 
-import { registrarPontoController } from '../registroPonto/controllers/registroPonto.controller'
+import { consultarPontoController, registrarPontoController } from '../registroPonto/controllers/registroPonto.controller'
 import { verificaTokenMiddleware } from '../registroPonto/middleware/registroPonto.middleware'
 
 export const router = express.Router()
@@ -23,6 +23,7 @@ router.delete('/usuarios/delete/:id', usuarioDeleteController)
 
 //CRUD BATER PONTO
 router.post('/api/registrarPonto', registrarPontoController)
+router.get('/api/consultarPonto', consultarPontoController)
 
 // CRUD Registro Ponto
 //router.post('/ponto/add', pontoAddControlle) 

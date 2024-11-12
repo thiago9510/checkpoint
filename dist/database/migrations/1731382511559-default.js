@@ -1,35 +1,24 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Default1731329687438 = void 0;
-class Default1731329687438 {
+exports.Default1731382511559 = void 0;
+class Default1731382511559 {
     constructor() {
-        this.name = 'Default1731329687438';
+        this.name = 'Default1731382511559';
     }
     async up(queryRunner) {
+        await queryRunner.query(`CREATE TABLE \`usuarios\` (\`usuario_id\` bigint UNSIGNED NOT NULL AUTO_INCREMENT, \`usuario_nome\` varchar(255) NOT NULL, \`usuario_email\` varchar(255) NOT NULL, \`usuario_password\` varchar(255) NOT NULL, \`usuario_tipo\` enum ('RH', 'Colaborador', 'Administrador') NOT NULL DEFAULT 'Colaborador', \`usuario_jornada\` time(4) NOT NULL, \`usuario_hora_besta\` enum ('sim', 'nao') NOT NULL DEFAULT 'nao', \`usuario_turno\` enum ('diurno', 'noturno', 'vespertino', 'madrugada', 'jornada', 'meio periodo', 'revezamento', 'flexivel') NOT NULL DEFAULT 'diurno', \`usuario_status\` enum ('Ativo', 'Inativo') NOT NULL DEFAULT 'Inativo', \`usuario_ultimoAcesso\` date NULL, \`updated_At\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`created_At\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), UNIQUE INDEX \`IDX_2798103bab9f13a926c1a164be\` (\`usuario_email\`), PRIMARY KEY (\`usuario_id\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`RegistroPontoUsuarios\` (\`registroPonto_id\` bigint UNSIGNED NOT NULL AUTO_INCREMENT, \`registroPonto_data\` date NOT NULL, \`registroPonto_chegada\` datetime NULL, \`registroPonto_inicio_intervalo\` datetime NULL, \`registroPonto_fim_intervalo\` datetime NULL, \`registroPonto_saida\` datetime NULL, \`usuario_id\` bigint UNSIGNED NOT NULL, PRIMARY KEY (\`registroPonto_id\`)) ENGINE=InnoDB`);
         await queryRunner.query(`CREATE TABLE \`RegistroPonto\` (\`registroPonto_id\` bigint UNSIGNED NOT NULL AUTO_INCREMENT, \`registroPonto_tipo\` enum ('Entrada', 'Saida', 'Inicio_intervalo', 'Fim_intervalo') NOT NULL DEFAULT 'Entrada', \`updated_At\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6), \`created_At\` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), \`usuario_id\` bigint UNSIGNED NOT NULL, PRIMARY KEY (\`registroPonto_id\`)) ENGINE=InnoDB`);
-        await queryRunner.query(`ALTER TABLE \`usuarios\` ADD \`usuario_tipo\` enum ('RH', 'Colaborador', 'Administrador') NOT NULL DEFAULT 'Colaborador'`);
-        await queryRunner.query(`ALTER TABLE \`usuarios\` ADD \`usuario_jornada_inicio\` time(4) NOT NULL`);
-        await queryRunner.query(`ALTER TABLE \`usuarios\` ADD \`usuario_jornada_fim\` time(4) NOT NULL`);
-        await queryRunner.query(`ALTER TABLE \`usuarios\` ADD \`usuario_intervalo_inicio\` time(4) NOT NULL`);
-        await queryRunner.query(`ALTER TABLE \`usuarios\` ADD \`usuario_intervalo_fim\` time(4) NOT NULL`);
-        await queryRunner.query(`ALTER TABLE \`usuarios\` ADD \`usuario_hora_besta\` enum ('sim', 'nao') NOT NULL DEFAULT 'nao'`);
-        await queryRunner.query(`ALTER TABLE \`usuarios\` ADD \`usuario_turno\` enum ('diurno', 'noturno', 'vespertino', 'madrugada', 'jornada', 'meio periodo', 'revezamento', 'flexivel') NOT NULL DEFAULT 'diurno'`);
         await queryRunner.query(`ALTER TABLE \`RegistroPontoUsuarios\` ADD CONSTRAINT \`FK_4071856378a3d2b867e58d6dba7\` FOREIGN KEY (\`usuario_id\`) REFERENCES \`usuarios\`(\`usuario_id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE \`RegistroPonto\` ADD CONSTRAINT \`FK_74a304f9ebb41e59d65ba90c47a\` FOREIGN KEY (\`usuario_id\`) REFERENCES \`usuarios\`(\`usuario_id\`) ON DELETE NO ACTION ON UPDATE NO ACTION`);
     }
     async down(queryRunner) {
         await queryRunner.query(`ALTER TABLE \`RegistroPonto\` DROP FOREIGN KEY \`FK_74a304f9ebb41e59d65ba90c47a\``);
         await queryRunner.query(`ALTER TABLE \`RegistroPontoUsuarios\` DROP FOREIGN KEY \`FK_4071856378a3d2b867e58d6dba7\``);
-        await queryRunner.query(`ALTER TABLE \`usuarios\` DROP COLUMN \`usuario_turno\``);
-        await queryRunner.query(`ALTER TABLE \`usuarios\` DROP COLUMN \`usuario_hora_besta\``);
-        await queryRunner.query(`ALTER TABLE \`usuarios\` DROP COLUMN \`usuario_intervalo_fim\``);
-        await queryRunner.query(`ALTER TABLE \`usuarios\` DROP COLUMN \`usuario_intervalo_inicio\``);
-        await queryRunner.query(`ALTER TABLE \`usuarios\` DROP COLUMN \`usuario_jornada_fim\``);
-        await queryRunner.query(`ALTER TABLE \`usuarios\` DROP COLUMN \`usuario_jornada_inicio\``);
-        await queryRunner.query(`ALTER TABLE \`usuarios\` DROP COLUMN \`usuario_tipo\``);
         await queryRunner.query(`DROP TABLE \`RegistroPonto\``);
         await queryRunner.query(`DROP TABLE \`RegistroPontoUsuarios\``);
+        await queryRunner.query(`DROP INDEX \`IDX_2798103bab9f13a926c1a164be\` ON \`usuarios\``);
+        await queryRunner.query(`DROP TABLE \`usuarios\``);
     }
 }
-exports.Default1731329687438 = Default1731329687438;
+exports.Default1731382511559 = Default1731382511559;

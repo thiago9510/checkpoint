@@ -37,19 +37,7 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)({ type: 'time', width: 4, nullable: false }),
     __metadata("design:type", String)
-], UsuarioEntity.prototype, "usuario_jornada_inicio", void 0);
-__decorate([
-    (0, typeorm_1.Column)({ type: 'time', width: 4, nullable: false }),
-    __metadata("design:type", String)
-], UsuarioEntity.prototype, "usuario_jornada_fim", void 0);
-__decorate([
-    (0, typeorm_1.Column)({ type: 'time', width: 4, nullable: false }),
-    __metadata("design:type", String)
-], UsuarioEntity.prototype, "usuario_intervalo_inicio", void 0);
-__decorate([
-    (0, typeorm_1.Column)({ type: 'time', width: 4, nullable: false }),
-    __metadata("design:type", String)
-], UsuarioEntity.prototype, "usuario_intervalo_fim", void 0);
+], UsuarioEntity.prototype, "usuario_jornada", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'enum', enum: ['sim', 'nao'], default: 'nao' }),
     __metadata("design:type", String)

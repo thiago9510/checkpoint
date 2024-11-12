@@ -20,6 +20,7 @@ exports.router.put('/usuarios/edit/:id', usuario_controller_1.usuarioEditControl
 exports.router.delete('/usuarios/delete/:id', usuario_controller_1.usuarioDeleteController);
 //CRUD BATER PONTO
 exports.router.post('/api/registrarPonto', registroPonto_controller_1.registrarPontoController);
+exports.router.get('/api/consultarPonto', registroPonto_controller_1.consultarPontoController);
 // CRUD Registro Ponto
 //router.post('/ponto/add', pontoAddControlle) 
 //router.get('/usuarios/search', pontoSearchController)

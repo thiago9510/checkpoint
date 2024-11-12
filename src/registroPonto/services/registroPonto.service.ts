@@ -79,7 +79,47 @@ export class PontoService {
  * @returns Registro do ponto ou erro
  */
 
-    async consultaraPonto (){
+    async consultaraPonto(usuario_id: number) {
+        try {
+            const repository: Repository<RegistroPontoEntity> = databaseConnection.getRepository(RegistroPontoEntity)
+            const searchPonto = await repository.query(`
+                SELECT 
+                    RegistroPonto.usuario_id,
+                    usuarios.usuario_jornada AS jornada,
+                    usuarios.usuario_turno AS turno,
+                    DATE(RegistroPonto.created_At) AS data_registro,
+                    MAX(CASE WHEN RegistroPonto.registroPonto_tipo = 'Entrada' THEN RegistroPonto.created_At END) AS entrada,
+                    MAX(CASE WHEN RegistroPonto.registroPonto_tipo = 'Inicio_intervalo' THEN RegistroPonto.created_At END) AS inicio_intervalo,
+                    MAX(CASE WHEN RegistroPonto.registroPonto_tipo = 'Fim_intervalo' THEN RegistroPonto.created_At END) AS fim_intervalo,
+                    MAX(CASE WHEN RegistroPonto.registroPonto_tipo = 'Saida' THEN RegistroPonto.created_At END) AS saida
+                FROM 
+                    RegistroPonto
+                INNER JOIN usuarios ON RegistroPonto.usuario_id = usuarios.usuario_id
+                WHERE 
+                    RegistroPonto.usuario_id = ?
+                GROUP BY 
+                    RegistroPonto.usuario_id, DATE(RegistroPonto.created_At)
+                ORDER BY 
+                    DATE(RegistroPonto.created_At);
+            `, [usuario_id])
+
+            if (!searchPonto) {
+                return {
+                    success: false,
+                    message: searchPonto
+                }
+            } else {
+                return {
+                    success: true,
+                    message: searchPonto
+                }
+            }
+        } catch (error) {
+            return {
+                success: false,
+                message: error
+            }
+        }
 
     }
 }
